@@ -26,6 +26,7 @@ public:
 
     Response transmit_message(Request req) override
     {
+
         Response respo;
         boost::asio::streambuf send_buffer,receive_buffer;
         Command* command = req.get_command();
@@ -34,7 +35,7 @@ public:
         boost::system::error_code error;
         boost::asio::write( *socket, send_buffer, error );
         if( !error ) {
-            cout << "Restart IT..." << endl;
+            cout << "Sending message.." << endl;
         }
         else {
             cout << "send failed: " << error.message() << endl;
@@ -46,25 +47,22 @@ public:
         }
         else {
             const char* data = boost::asio::buffer_cast<const char*>(receive_buffer.data());
+            respo.setInformation(data);
             cout << data << endl;
         }
 
         return respo;
     }
 
-    void kiss_my_muscles(string name){
-        cout << "UHHHHHH " << name << " KISSED MY MUSCLES...";
-    }
-
-
 
     bool connect() override {
-        kiss_my_muscles("Miss Eklund");
+
         boost::asio::io_service io_service;
         socket = new tcp::socket(io_service);
         try{
             socket->connect( tcp::endpoint( boost::asio::ip::address::from_string(getIp_addr().ip_address), getIp_addr().port ));
         }catch(...){
+            cout << "Connection failed" << endl;
             status = Status::ERR_CONN;
             return false;
         }

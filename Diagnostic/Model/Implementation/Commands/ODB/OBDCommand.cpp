@@ -4,10 +4,21 @@
 
 #include "OBDCommand.h"
 
-std::string OBDCommand::get_text_command() {
-    string odb_header_string = odb_header.priority_0 + odb_header.priority_1 + odb_header.receiver_0 + " ";
-    return odb_header_string;
+std::string OBDCommand::get_text_command()
+{
+    char header[] =  {obd_header.priority_0, obd_header.priority_1,
+                   obd_header.receiver_0, obd_header.receiver_1,
+                   obd_header.transmitter_0, obd_header.transmitter_1, 0};
+    string hd(header);
+    string odb_pay(obd_payload.payload);
+
+    return ATCommand::get_text_command() + " " + hd + " " + odb_pay + "\x0d";
 }
 
-OBDCommand::OBDCommand(const ODBHeader &header) : odb_header(header) {}
+OBDCommand::OBDCommand(const OBDHeader &header,  const OBDPayload &payload)
+            : ATCommand("SH"), obd_header(header), obd_payload(payload)
+    {
+
+    }
+
 

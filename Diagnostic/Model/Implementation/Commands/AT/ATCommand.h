@@ -11,13 +11,11 @@
 using namespace std;
 
 class ATCommand : public Command{
-    ATCommand* next;
+
 private:
     const std::string COMMAND_PREFIX = "AT";
     std::string specific_command = "";
 public:
-    void add_command(ATCommand* cmd);
-
     ATCommand(const string command) : specific_command(command) {};
     std::string get_text_command() override;
 };

@@ -21,21 +21,6 @@ public:
     {
     }
 
-
-
-    template <typename C>
-     C get_key_val(std::string c){
-
-        if(c == "request_time"){
-            return time;
-        }
-        if(c == "protocol_used"){
-            return request_type;
-        }
-        return NULL;
-    }
-
-
     Command* get_command(){
         return command;
     }
