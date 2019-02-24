@@ -12,8 +12,8 @@ private:
     std::string command_string;
 public:
 
-
-
     virtual std::string get_text_command() = 0;
+    virtual std::string get_header() = 0;
+    virtual std::string get_payload() = 0;
 };
 #endif //DIAGNOSTICAPP_COMMAND_H

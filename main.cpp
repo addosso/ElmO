@@ -25,6 +25,6 @@ int main() {
 
     Response fluid_temp_resp = my_vci.transmit_message(fluid_temperature_request);
 
-    cout << fluid_temp_resp.getInformation() << endl;
+    cout << fluid_temp_resp.getInformation("msg") << endl;
     return 0;
 }

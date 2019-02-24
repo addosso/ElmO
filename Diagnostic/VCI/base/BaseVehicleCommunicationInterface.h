@@ -8,7 +8,7 @@
 #include "WLAN/Status.h"
 #include "../../Model/base/MsgSystem/Message.h"
 #include "../../Model/base/MsgSystem/Request.h"
-#include "../../Model/base/MsgSystem/Reponse.h"
+#include "../../Model/base/MsgSystem/Response.h"
 
 class BaseVehicleCommunicationInterface {
 

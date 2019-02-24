@@ -1,3 +1,5 @@
+#include <utility>
+
 //
 // Created by Fortunato Rosa on 2019-02-03.
 //
@@ -19,8 +21,8 @@ namespace IPUtils {
         string ip_address;
         ip_addr_type ip_address_type;
         unsigned short port;
-        IP_ADDRESS(const string &ip_address, ip_addr_type ip_address_type, unsigned short port) : ip_address(ip_address),
-                                                                             ip_address_type(ip_address_type), port(port) {}
+        IP_ADDRESS(string ip_address, ip_addr_type ip_address_type, unsigned short port) : ip_address(
+                std::move(ip_address)), ip_address_type(ip_address_type), port(port) {}
     };
 
 }

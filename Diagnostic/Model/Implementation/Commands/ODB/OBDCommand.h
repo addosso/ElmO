@@ -25,12 +25,12 @@ struct OBDHeader{
 
 struct OBDPayload{
     const static int PAYLOAD_SIZE = 14;
-    char payload[PAYLOAD_SIZE] = {
+    char payload[PAYLOAD_SIZE+1] = {
             0,0,0,0,0,0,0,
-            0,0,0,0,0,0,0
+            0,0,0,0,0,0,0,0
     };
 
-    OBDPayload(char *pay)  {
+    explicit OBDPayload(char *pay)  {
         size_t str_len = strlen(pay);
         for(int i=0; i<=str_len; i++){
             if(i == PAYLOAD_SIZE) break ;
@@ -49,6 +49,10 @@ public:
     OBDCommand(const OBDHeader &header, const OBDPayload &payload);
 
     std::string get_text_command() override;
+
+    string get_header() override;
+
+    string get_payload() override;
 
 };
 

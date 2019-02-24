@@ -26,7 +26,11 @@ public:
 
     Response transmit_message(Request req) override
     {
+        switch(WLanVCI::status){
+            case Status::DISCONNECTED:  return Response{"msg","Disconnected Device: Impossible to transmit messages"}; break;
+            case Status::ERR_CONN: return Response{"msg","Error Connection: Impossible to transmit messages"}; break;
 
+        }
         Response respo;
         boost::asio::streambuf send_buffer,receive_buffer;
         Command* command = req.get_command();
@@ -47,7 +51,7 @@ public:
         }
         else {
             const char* data = boost::asio::buffer_cast<const char*>(receive_buffer.data());
-            respo.setInformation(data);
+            respo.setInformation("msg", string(data));
             cout << data << endl;
         }
 

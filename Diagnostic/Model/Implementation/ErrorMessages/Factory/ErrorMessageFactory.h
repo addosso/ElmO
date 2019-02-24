@@ -6,12 +6,12 @@
 #define DIAGNOSTICAPP_ERRORMESSAGEFACTORY_H
 
 
-#include "../../../base/MsgSystem/Reponse.h"
+#include "../../../base/MsgSystem/ErrorResponse.h"
 #include "ErrorMessageDef.h"
 
 class ErrorMessageFactory {
 public:
-    static Response create_error(Error_type error_type);
+    static ErrorResponse create_error(Error_type error_type);
 };
 
 

@@ -20,13 +20,7 @@ bool Elm327WLanVCI::disconnect() {
 
 Response Elm327WLanVCI::transmit_message(Request &req)
 {
-    Response resp;
-    switch(WLanVCI::status){
-        case Status::DISCONNECTED: resp.setInformation("Disconnected Device: Impossible to transmit messages"); break;
-        case Status::ERR_CONN: resp.setInformation("Error Connection: Impossible to transmit messages"); break;
-        default: resp = WLanVCI::transmit_message(req); break;
-    }
-    return resp;
+    return WLanVCI::transmit_message(req);
 }
 
 Elm327WLanVCI::~Elm327WLanVCI() {
