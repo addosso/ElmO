@@ -11,9 +11,9 @@
 
 
 class Elm327WLanVCI : public WLanVCI {
-private:
 
 public:
+    const char DEVICE_ADDRESS[2]{'F', '1'};
 
     Elm327WLanVCI(IPUtils::IP_ADDRESS ip_add):  WLanVCI{ip_add}
     {

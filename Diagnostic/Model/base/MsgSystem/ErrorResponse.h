@@ -13,7 +13,7 @@ public:
 
     }
     void set_error_msg(const string &error_msg){
-        Response::setInformation("err_msg", error_msg);
+        Response::set_information("err_msg", error_msg);
     }
 
 };

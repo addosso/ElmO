@@ -20,6 +20,7 @@ bool Elm327WLanVCI::disconnect() {
 
 Response Elm327WLanVCI::transmit_message(Request &req)
 {
+    std::cout << req.get_command()->get_text_command() << std::endl;
     return WLanVCI::transmit_message(req);
 }
 

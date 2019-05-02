@@ -1,0 +1,45 @@
+#### Messages DB for Elm0 ####
+#                            #
+#                            #
+#                            #
+##############################
+
+
+[OBD]
+
+
+
+
+[AT]
+RV=0
+CV=1
+<CR>
+BRD hh
+BRT hh
+D
+E0, E1
+FE
+I
+L0, L1
+M0, M1
+WS
+@1
+@2
+@3 cccccccccccc
+
+PP xx OFF
+PP FF OFF
+PP xx ON
+PP FF ON
+PP xx SV yy
+PPS
+
+AL
+AR
+AT0
+AT1
+AT2
+BD
+BI
+DP
+DPN

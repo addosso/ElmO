@@ -9,7 +9,7 @@
 #include "../../Model/base/MsgSystem/Message.h"
 #include "../../Model/base/MsgSystem/Request.h"
 #include "../../Model/base/MsgSystem/Response.h"
-
+#include <iostream>
 class BaseVehicleCommunicationInterface {
 
 protected:

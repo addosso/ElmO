@@ -19,42 +19,48 @@ private:
     IPUtils::IP_ADDRESS ip_addr;
     tcp::socket* socket;
 public:
-    WLanVCI(IPUtils::IP_ADDRESS ip_add) : ip_addr{ip_add}, BaseVehicleCommunicationInterface()
+    WLanVCI(IPUtils::IP_ADDRESS ip_add) : ip_addr{std::move(ip_add)}, BaseVehicleCommunicationInterface()
     {
     }
 
 
     Response transmit_message(Request req) override
     {
-        switch(WLanVCI::status){
+        switch(get_status()){
             case Status::DISCONNECTED:  return Response{"msg","Disconnected Device: Impossible to transmit messages"}; break;
             case Status::ERR_CONN: return Response{"msg","Error Connection: Impossible to transmit messages"}; break;
-
         }
         Response respo;
-        boost::asio::streambuf send_buffer,receive_buffer;
-        Command* command = req.get_command();
-        std::string command_text = command->get_text_command();
-
+        boost::asio::streambuf receive_buffer;
         boost::system::error_code error;
-        boost::asio::write( *socket, send_buffer, error );
+        std::string command_text = req.get_command()->get_text_command();
+        boost::asio::write( *socket, boost::asio::buffer(command_text), error );
         if( !error ) {
-            cout << "Sending message.." << endl;
+#if defined ELM_DEBUG
+            std::cout << "Sending message.." << std::endl;
+#endif
         }
         else {
-            cout << "send failed: " << error.message() << endl;
+#if defined ELM_DEBUG
+            std::cout << "send failed: " << error.message() << std::endl;
+#endif
+            return Response{"msg","Communication Error: Impossible to transmit message"};
         }
 
-        boost::asio::read(*socket, receive_buffer, boost::asio::transfer_all(), error);
-        if( error && error != boost::asio::error::eof ) {
-            cout << "receive failed: " << error.message() << endl;
-        }
-        else {
-            const char* data = boost::asio::buffer_cast<const char*>(receive_buffer.data());
-            respo.setInformation("msg", string(data));
-            cout << data << endl;
-        }
+            boost::asio::read(*socket, receive_buffer, boost::asio::transfer_all(), error);
+            if (error && error != boost::asio::error::eof) {
+#if defined ELM_DEBUG
+                std::cout << "receive failed: " << error.message() << std::endl;
+#endif
+                return Response{"msg", "Communication Error: Impossible to read the message"};
+            } else {
+                const char *data = boost::asio::buffer_cast<const char *>(receive_buffer.data());
+                respo.set_information("msg", string(data));
+#if defined ELM_DEBUG
+                std::cout << data << std::endl;
+#endif
 
+        }
         return respo;
     }
 
@@ -66,7 +72,9 @@ public:
         try{
             socket->connect( tcp::endpoint( boost::asio::ip::address::from_string(getIp_addr().ip_address), getIp_addr().port ));
         }catch(...){
-            cout << "Connection failed" << endl;
+#if defined ELM_DEBUG
+            std::cout << "Connection failed" << std::endl;
+#endif
             status = Status::ERR_CONN;
             return false;
         }
